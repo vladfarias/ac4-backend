@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from dotenv import load_dotenv
 import os
 import mysql.connector
+import uuid
 
 app = Flask(__name__)
 
@@ -33,7 +34,7 @@ else:
 def getAlunos():
     query = f"select * from tb_aluno"
     cursor = connection.cursor() # Poderia colocar para fora
-    cursorExec = cursor.execute(query)
+    cursor.execute(query)
     result = cursor.fetchall()
 
     # Commit da transação e fechamento da conexão
@@ -49,9 +50,10 @@ def saveAluno():
     nome = data.get('nome')
     turma = data.get('turma')
     disciplina = data.get('disciplina')
+    id = str(uuid.uuid4())
 
-    query = f"INSERT INTO tb_aluno (nome, turma, disciplina) VALUES (%s, %s, %s)"
-    values = (nome, turma, disciplina)
+    query = f"INSERT INTO tb_aluno (nome, turma, disciplina, ID) VALUES (%s, %s, %s, %s)"
+    values = (nome, turma, disciplina, id)
     cursor = connection.cursor()
     cursor.execute(query, values)
 
