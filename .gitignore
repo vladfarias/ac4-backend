@@ -1,0 +1,19 @@
+# Arquivos gerados pelo ambiente de desenvolvimento
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Arquivos gerados pelos testes
+.coverage
+htmlcov/
+
+# Diretório virtualenv (se você estiver usando um)
+venv/
+env/
+
+# Arquivos de logs
+*.log
+
+# variáveis de ambiente
+.env
