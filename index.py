@@ -31,20 +31,19 @@ else:
     print('Erro ao conectar ao banco de dados')
 
 @app.route('/listarAlunos', methods=['GET'])
-def getAlunos():
+def get_alunos():
     query = f"select * from tb_aluno"
-    cursor = connection.cursor() # Poderia colocar para fora
+    cursor = connection.cursor() 
     cursor.execute(query)
     result = cursor.fetchall()
 
-    # Commit da transação e fechamento da conexão
     connection.commit()
     connection.close()
 
     return jsonify(result)
 
 @app.route('/cadastrar', methods=['POST'])
-def saveAluno():
+def save_aluno():
     data = request.get_json()
 
     nome = data.get('nome')
@@ -57,12 +56,30 @@ def saveAluno():
     cursor = connection.cursor()
     cursor.execute(query, values)
 
-     # Commit da transação e fechamento da conexão
     connection.commit()
     connection.close()
 
     return jsonify({'Messagem': f'Aluno cadastrado com sucesso {nome}'})
 
+@app.route('/aluno/<id>', methods=['GET'])
+def get_aluno_by_Id(id):
+    query = f"SELECT * FROM tb_aluno WHERE ID = %s"
+    values = (id,)
+    cursor = connection.cursor()
+    cursor.execute(query, values)
+    result = cursor.fetchone()
+    
+    if result is None:
+        return jsonify({'message': 'Aluno não encontrado!'})
+    
+    aluno = {
+        'id': result[0],
+        'nome': result[1],
+        'turma': result[2],
+        'disciplina': result[3]
+    }
+
+    return jsonify(aluno)
 
 if __name__ =='__main__':
     app.run(port=5000, debug=True)
