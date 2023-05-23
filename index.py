@@ -73,10 +73,10 @@ def get_aluno_by_Id(id):
         return jsonify({'message': 'Aluno não encontrado!'})
     
     aluno = {
-        'id': result[0],
-        'nome': result[1],
-        'turma': result[2],
-        'disciplina': result[3]
+        'id': result[3],
+        'nome': result[0],
+        'disciplina': result[2],
+        'turma': result[1]
     }
 
     return jsonify(aluno)
